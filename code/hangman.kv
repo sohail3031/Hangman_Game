@@ -1,0 +1,399 @@
+#:import Factory kivy.factory.Factory
+<HangmanWindow>:
+    BoxLayout:
+        id: main_layout
+        orientation: "vertical"
+        padding: 10
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba:(1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                id: welcome_screen
+                name: "welcome_screen"
+                BoxLayout:
+                    id: welcome_screen
+                    orientation: "vertical"
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: .1
+                        spacing: 10
+                        canvas.before:
+                            Color:
+                                rgba: (.06, .45, .45, 1)
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        Label:
+                            text: "Welcome to Hangman Game"
+                            bold: True
+                            font_size: 30
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: .7
+                        canvas.before:
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                                source: "images/hangman.jpg"
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: .1
+                        Button:
+                            text: "Let's Start"
+                            background_color: (.06, .47, .47, 1)
+                            bold: True
+                            font_size: 20
+                            on_release: root.change_screen()
+                        Button:
+                            text: "Quit"
+                            background_color: (.06, .47, .47, 1)
+                            bold: True
+                            font_size: 20
+                            on_release: app.stop()
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: .1
+                        canvas.before:
+                            Color:
+                                rgba: (.06, .45, .45, 1)
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        Label:
+                            text: "Created By Mohd Sohail Ahmed"
+                            bold: True
+                            font_size: 20
+            Screen:
+                id: main_screen
+                name: "main_screen"
+                BoxLayout:
+                    orientation: "vertical"
+                    canvas.before:
+                        Color:
+                            rgba: (.06, .45, .45, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: .4
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: .2
+                        spacing: 10
+                        TextInput:
+                            id: user_name
+                            multiline: False
+                            size_hint_y: None
+                            height: 30
+                            size_hint_x: None
+                            width: 300
+                            hint_text: "Enter Username"
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            on_text_validate: root.valid_user_name()
+                        Button:
+                            text: "Let's Start"
+                            size_hint_y: None
+                            height: 30
+                            size_hint_x: None
+                            width: 300
+                            bold: True
+                            font_size: 20
+                            background_color: (.06, .47,.47, 1)
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            on_release: root.valid_user_name()
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: .4
+                        Label:
+                            text: ""
+            Screen:
+                id: game_screen
+                name: "game_screen"
+                BoxLayout:
+                    orientation: "vertical"
+                    padding: 10
+                    spacing: 10
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: .1
+                        canvas.before:
+                            Color:
+                                rgba: (.06, .45, .45, 1)
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_x: .2
+                            Label:
+                                id: display_score
+                                text: "Score: 0"
+                                font_size: 30
+                                bold: True
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_x: .6
+                            Label:
+                                id: label_user_name
+                                text: "Welcome "
+                                bold: True
+                                font_size: 30
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_x: .2
+                            Button:
+                                id: show_hints
+                                text: "Hints: 5"
+                                bold: True
+                                font_size: 30
+                                background_normal: ""
+                                background_color: (.06, .45, .45, 1)
+                                on_release: root.show_hint()
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: .8
+                        canvas.before:
+                            Color:
+                                rgba: (.06, .45, .45, 1)
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        ScrollView:
+                            BoxLayout:
+                                orientation: "vertical"
+                                padding: 10
+                                spacing: 10
+                                Label:
+                                    id: word_length_underscores
+                                    text: "_ "
+                                    color: (1, 1, 1, 1)
+                                    bold: True
+                                    font_size: 20
+                                BoxLayout:
+                                    orientation: "horizontal"
+                                    Label:
+                                        text: "Length: "
+                                        bold: True
+                                        font_size: 20
+                                    TextInput:
+                                        id: word_length
+                                        multiline: False
+                                        readonly: True
+                                        size_hint: (None, None)
+                                        width: 50
+                                        height: 30
+                                        pos_hint: {"center_x": .5, "center_y": .5}
+                                        hint_text: "0"
+                                    Label:
+                                        text: "Guess Left: "
+                                        bold: True
+                                        font_size: 20
+                                    TextInput:
+                                        id: guess_left
+                                        multiline: False
+                                        readonly: True
+                                        size_hint: (None, None)
+                                        width: 50
+                                        height: 30
+                                        pos_hint: {"center_x": .5, "center_y": .5}
+                                        hint_text: "0"
+                                    Label:
+                                        text: "Wrong Guess: "
+                                        bold: True
+                                        font_size: 20
+                                    TextInput:
+                                        id: wrong_guess
+                                        multiline: False
+                                        readonly: True
+                                        size_hint_y: None
+                                        height: 30
+                                        pos_hint: {"center_x": .5, "center_y": .5}
+                                        hint_text: "Wrong Guessed Words"
+                                GridLayout:
+                                    cols: 10
+                                    Button:
+                                        text: "A"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "B"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "C"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "D"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "E"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "F"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "G"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "H"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "I"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "J"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "K"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "L"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "M"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "N"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "O"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "P"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "Q"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "R"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "S"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "T"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Label:
+                                        text: ""
+                                    Label:
+                                        text: ""
+                                    Button:
+                                        text: "U"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "V"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "W"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "X"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "Y"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Button:
+                                        text: "Z"
+                                        background_color: (.06, .47, .47, 1)
+                                        bold: True
+                                        font_size: 20
+                                        on_release: root.text_button_pressed(self)
+                                    Label:
+                                        text: ""
+                                    Label:
+                                        text: ""
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: .1
+                        Button:
+                            text: "Next Word"
+                            background_color: (.06, .47, .47, 1)
+                            bold: True
+                            font_size: 20
+                            on_release: root.play_again()
+                        Button:
+                            text: "Quit"
+                            background_color: (.06, .47, .47, 1)
+                            bold: True
+                            font_size: 20
+                            on_release: app.stop()
