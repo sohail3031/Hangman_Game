@@ -6,3 +6,5 @@ The player has a choice they can use either the keyboard provided on the screen 
 The game has more than 450+ words.
 
 Based upon the user attempts to guess the word, a score is provided to the user.
+
+To play the game, run hangman.py file.
