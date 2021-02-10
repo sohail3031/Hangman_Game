@@ -3,7 +3,7 @@ This classic game of Hangman is created with Python. In this game, a player has 
 The player has a choice they can use either the keyboard provided on the screen or they can use their pc's keyboard to type the letters.
 
 
-The game has more than 450+ words.
+The game has nearly 2500 words.
 
 Based upon the user attempts to guess the word, a score is provided to the user.
 
